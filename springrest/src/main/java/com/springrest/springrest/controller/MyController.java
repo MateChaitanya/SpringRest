@@ -3,10 +3,7 @@ package com.springrest.springrest.controller;
 import com.springrest.springrest.entities.Course;
 import com.springrest.springrest.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,22 +11,32 @@ import java.util.List;
 public class MyController {
 
     @Autowired
-    // autowired - it will create object of CourseServiceimpl class and inject it to courseService
     private CourseService courseService;
+
     @GetMapping("/home")
-    public String home(){
+    public String home() {
         return "Welcome to course application";
     }
 
-    //Get all Courses
-
+    // Get All Courses
     @GetMapping("/courses")
-    public List<Course> getCourses(){
-      return this.courseService.getCourses();  //this will call method of interface CourseService ie getCourses
+    public List<Course> getCourses() {
+        return this.courseService.getCourses();
     }
-    
+
+    // Get Single Course by ID
     @GetMapping("/courses/{courseId}")
-    public Course getCourse(@PathVariable String courseId){
+    public Course getCourse(@PathVariable String courseId) {
         return this.courseService.getCourse(Long.parseLong(courseId));
     }
+
+    // ------------------------------
+    //       POST MAPPING
+    // ------------------------------
+
+    @PostMapping("/courses")
+    public Course addCourse(@RequestBody Course course) {
+        return this.courseService.addCourse(course);
+    }
 }
+
